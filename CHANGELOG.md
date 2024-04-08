@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.1.0...v0.2.0) (2024-04-08)
+
+
+### Features
+
+* **deps:** Bump github.com/gruntwork-io/terratest from 0.46.11 to 0.46.13 in /tests ([4aee87c](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/4aee87c4399abb0b5603295760b2412c64f8ccc7))
+* include existing private dns zone in outputs ([#8](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/8)) ([4b5038e](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/4b5038e21b8abfdc0710dc10f07d3299c22b8d44))
+
 ## 0.1.0 (2024-03-13)
 
 

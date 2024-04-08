@@ -5,7 +5,7 @@ This example demonstrates leveraging existing private dns zones through a provid
 ```hcl
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure/"
-  version = "~> 0.1"
+  version = "~> 0.2"
 
   providers = {
     azurerm = azurerm.connectivity

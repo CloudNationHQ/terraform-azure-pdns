@@ -9,11 +9,7 @@ module "private_dns" {
 
   resourcegroup = module.rg.groups.demo.name
 
-  zones = {
-    vault = {
-      name = "privatelink.vaultcore.azure.net"
-    }
-  }
+  zones = local.zones
 }
 ```
 

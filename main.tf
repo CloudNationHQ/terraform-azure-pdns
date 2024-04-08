@@ -1,13 +1,4 @@
 # existing
-data "azurerm_resource_group" "existing" {
-  for_each = {
-    for key, val in local.zones :
-    key => val if val.use_existing_zone == true
-  }
-
-  name = each.value.resourcegroup
-}
-
 data "azurerm_private_dns_zone" "existing_zone" {
   for_each = {
     for key, val in local.zones :

@@ -1,4 +1,3 @@
-# existing
 data "azurerm_private_dns_zone" "existing_zone" {
   for_each = {
     for key, val in local.zones :

@@ -5,7 +5,7 @@ This example highlights the complete usage.
 ```hcl
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure/"
-  version = "~> 0.2"
+  version = "~> 0.3"
 
   resourcegroup = module.rg.groups.demo.name
   zones         = local.zones

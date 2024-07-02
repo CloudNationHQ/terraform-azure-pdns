@@ -5,7 +5,7 @@ This example illustrates the default private dns zones setup, in its simplest fo
 ```hcl
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure"
-  version = "~> 0.3"
+  version = "~> 0.4"
 
   resourcegroup = module.rg.groups.demo.name
 

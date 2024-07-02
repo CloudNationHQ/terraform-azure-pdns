@@ -5,7 +5,7 @@ This example shows how to set up multiple virtual network links for each private
 ```hcl
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure"
-  version = "~> 0.3"
+  version = "~> 0.4"
 
   resourcegroup = module.rg.groups.demo.name
 

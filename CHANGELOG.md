@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.3.0...v0.4.0) (2024-07-02)
+
+
+### Features
+
+* add issue template ([#17](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/17)) ([0154f38](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/0154f386b9a7c7d799addaa0e8f78e281d1446d7))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#18](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/18)) ([df0d2e5](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/df0d2e57d67c946cd985dbf272e0ced46fb2eb12))
+* **deps:** bump github.com/hashicorp/go-getter ([#16](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/16)) ([72a964b](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/72a964be99804ad7b2ca14c9640d6c85a1261675))
+
 ## [0.3.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.2.0...v0.3.0) (2024-06-07)
 
 

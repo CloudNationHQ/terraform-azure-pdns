@@ -14,15 +14,15 @@ A last key goal is to separate logic from configuration in the module, thereby e
 
 ## Features
 
-Support the deployment of multiple private dns zones
+Support the deployment of multiple private dns zones.
 
-Enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone
+Enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone.
 
-Utilization of terratest for robust validation
+Utilization of terratest for robust validation.
 
-Allows multiple virtual network links per private dns zone
+Allows multiple virtual network links per private dns zone.
 
-Provides support for utilizing existing private dns zones
+Provides support for utilizing existing private dns zones.
 
 ## Requirements
 
@@ -85,15 +85,15 @@ Using a dedicated module, we've developed a naming convention for resources that
 
 Full examples detailing all usages, along with integrations with dependency modules, are located in the examples directory
 
-## Authors
-
-Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-pdns/graphs/contributors).
-
 ## Contributing
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
 
 For more information, please see our contribution [guidelines](https://github.com/CloudNationHQ/terraform-azure-pdns/blob/main/CONTRIBUTE.md).
+
+## Authors
+
+Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-pdns/graphs/contributors).
 
 ## License
 

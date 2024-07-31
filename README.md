@@ -24,11 +24,11 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Features
 
-Support the deployment of multiple private dns zones.
-Enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone.
-Utilization of terratest for robust validation.
-Allows multiple virtual network links per private dns zone.
-Provides support for utilizing existing private dns zones.
+- Support the deployment of multiple private dns zones.
+- Enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone.
+- Utilization of terratest for robust validation.
+- Allows multiple virtual network links per private dns zone.
+- Provides support for utilizing existing private dns zones.
 
 ## Requirements
 

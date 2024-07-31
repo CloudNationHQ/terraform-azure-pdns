@@ -1,27 +1,4 @@
 locals {
-  naming = {
-    # lookup outputs to have consistent naming
-    for type in local.naming_types : type => lookup(module.naming, type).name
-  }
-
-  naming_types = ["subnet", "network_security_group"]
-}
-
-locals {
-  zones = {
-    vault = {
-      name                  = "privatelink.vaultcore.azure.net"
-      records               = local.records
-      virtual_network_links = local.virtual_network_links
-    }
-    sql = {
-      name                  = "privatelink.database.windows.net"
-      virtual_network_links = local.virtual_network_links
-    }
-  }
-}
-
-locals {
   records = {
     a = {
       webserver = {
@@ -90,17 +67,6 @@ locals {
         ttl     = 3600
         records = ["mail.contoso.com."]
       }
-    }
-  }
-}
-
-locals {
-  virtual_network_links = {
-    link1 = {
-      virtual_network_id = module.network1.vnet.id
-    }
-    link2 = {
-      virtual_network_id = module.network2.vnet.id
     }
   }
 }

@@ -61,5 +61,16 @@ module "private_dns" {
   source = "../../"
 
   resourcegroup = module.rg.groups.demo.name
-  zones         = local.zones
+
+  zones = {
+    vault = {
+      name                  = "privatelink.vaultcore.azure.net"
+      records               = local.records
+      virtual_network_links = local.virtual_network_links
+    }
+    sql = {
+      name                  = "privatelink.database.windows.net"
+      virtual_network_links = local.virtual_network_links
+    }
+  }
 }

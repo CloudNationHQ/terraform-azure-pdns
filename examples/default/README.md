@@ -1,32 +1,12 @@
-This example illustrates the default private dns zones setup, in its simplest form.
+# Default
 
-## Usage
+This example illustrates the default setup, in its simplest form.
 
-```hcl
-module "private_dns" {
-  source  = "cloudnationhq/pdns/azure"
-  version = "~> 0.4"
-
-  resourcegroup = module.rg.groups.demo.name
-
-  zones = local.zones
-}
-```
-
-The module uses the below locals for configuration
+## Types
 
 ```hcl
-locals {
-  zones = {
-    vault = {
-      name = "privatelink.vaultcore.azure.net"
-    },
-    sql = {
-      name = "privatelink.database.windows.net"
-    },
-    storage = {
-      name = "privatelink.blob.core.windows.net"
-    },
-  }
-}
+zones = map(object({
+  name         = string
+ resourcegroup = string
+}))
 ```

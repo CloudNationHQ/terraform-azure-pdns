@@ -12,13 +12,23 @@ A primary goal is to utilize keys and values in the object that correspond to th
 
 A last key goal is to separate logic from configuration in the module, thereby enhancing its scalability, ease of customization, and manageability.
 
+## Non-Goals
+
+These modules are not intended to be complete, ready-to-use solutions; they are designed as components for creating your own patterns.
+
+They are not tailored for a single use case but are meant to be versatile and applicable to a range of scenarios.
+
+Security standardization is applied at the pattern level, while the modules include default values based on best practices but do not enforce specific security standards.
+
+End-to-end testing is not conducted on these modules, as they are individual components and do not undergo the extensive testing reserved for complete patterns or solutions.
+
 ## Features
 
-- support the deployment of multiple private dns zones
-- enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone
-- utilization of terratest for robust validation
-- allows multiple virtual network links per private dns zone
-- provides support for utilizing existing private dns zones
+- Support the deployment of multiple private dns zones.
+- Enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone.
+- Utilization of terratest for robust validation.
+- Allows multiple virtual network links per private dns zone.
+- Provides support for utilizing existing private dns zones.
 
 ## Requirements
 
@@ -84,6 +94,12 @@ Full examples detailing all usages, along with integrations with dependency modu
 ## Authors
 
 Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-pdns/graphs/contributors).
+
+## Contributing
+
+We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
+
+For more information, please see our contribution [guidelines](https://github.com/CloudNationHQ/terraform-azure-pdns/blob/main/CONTRIBUTE.md).
 
 ## License
 

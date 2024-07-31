@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.4.0...v0.5.0) (2024-07-31)
+
+
+### Features
+
+* add type definitions and contribution guidelines ([#22](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/22)) ([4458727](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/4458727ec7e3b4db19d4f179cdef680a8364b250))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#20](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/20)) ([f82ed83](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/f82ed839adebb30eabbc752a928fb3bc53b59318))
+
 ## [0.4.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.3.0...v0.4.0) (2024-07-02)
 
 

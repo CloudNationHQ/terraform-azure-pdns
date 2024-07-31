@@ -18,10 +18,10 @@ module "rg" {
 }
 
 module "private_dns" {
-  #source  = "cloudnationhq/sa/azure//modules/private-dns"
-  #version = "~> 0.1"
-  source = "../../"
+  source  = "cloudnationhq/sa/azure//modules/private-dns"
+  version = "~> 0.1"
 
   resourcegroup = module.rg.groups.demo.name
-  zones         = local.zones
+    zones         = local.zones
+
 }

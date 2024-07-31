@@ -89,6 +89,12 @@ Full examples detailing all usages, along with integrations with dependency modu
 
 Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-pdns/graphs/contributors).
 
+## Contributing
+
+We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
+
+For more information, please see our contribution [guidelines](https://github.com/CloudNationHQ/terraform-azure-pdns/blob/main/CONTRIBUTE.md).
+
 ## License
 
 MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/terraform-azure-pdns/blob/main/LICENSE) for full details.

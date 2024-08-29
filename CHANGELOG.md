@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.5.0...v0.6.0) (2024-08-29)
+
+
+### Features
+
+* update documentation ([#25](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/25)) ([ecd773d](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/ecd773def4c508ad375f545e882a274e646c106d))
+
 ## [0.5.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.4.0...v0.5.0) (2024-07-31)
 
 

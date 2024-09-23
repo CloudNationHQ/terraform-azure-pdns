@@ -6,7 +6,7 @@ This example illustrates the default setup, in its simplest form.
 
 ```hcl
 zones = map(object({
-  name         = string
- resourcegroup = string
+ name           = string
+ resource_group = string
 }))
 ```

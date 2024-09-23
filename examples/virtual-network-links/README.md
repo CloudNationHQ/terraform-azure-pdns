@@ -6,8 +6,8 @@ This deploys multiple virtual network links for each private dns zone.
 
 ```hcl
 zones = map(object({
-  name = string
-  resourcegroup = string
+  name           = string
+  resource_group = string
 
   virtual_network_links = optional(map(object({
     virtual_network_id   = string

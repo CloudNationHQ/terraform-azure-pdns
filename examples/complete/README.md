@@ -7,7 +7,7 @@ This example highlights the complete usage.
 ```hcl
 zones = map(object({
   name              = string
-  resourcegroup     = string
+  resource_group    = string
   use_existing_zone = optional(bool)
 
   records = optional(object({

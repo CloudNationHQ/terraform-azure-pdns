@@ -6,8 +6,8 @@ This deploys different types of private dns zone records.
 
 ```hcl
 zones = map(object({
-  name = string
-  resourcegroup = string
+  name           = string
+  resource_group = string
 
   records = optional(object({
     a = optional(map(object({

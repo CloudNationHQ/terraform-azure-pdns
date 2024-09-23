@@ -5,11 +5,19 @@
 
 ### ⚠ BREAKING CHANGES
 
-* * data structure has changed due to renaming of properties.
+* data structure has changed due to renaming of properties.
 
 ### Features
 
 * aligned several properties and simplified tests ([#29](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/29)) ([e5d6c13](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/e5d6c13ad03791fc9e90b1e349a8ca89c8ecbece))
+
+### Upgrade from v0.6.0 to v1.0.0:
+
+- Update module reference to: `version = "~> 1.0"`
+- Rename properties in zones object:
+  - resourcegroup -> resource_group
+- Rename variable (optional):
+  - resourcegroup -> resource_group
 
 ## [0.6.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v0.5.0...v0.6.0) (2024-08-29)
 

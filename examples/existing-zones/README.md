@@ -6,8 +6,8 @@ This deploys existing private dns zones using a provider alias.
 
 ```hcl
 zones = map(object({
-  name          = string
-  resourcegroup = string
+  name           = string
+  resource_group = string
 
   use_existing_zone = optional(bool)
   virtual_network_links = optional(map(object({

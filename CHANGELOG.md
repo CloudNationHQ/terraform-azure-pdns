@@ -9,7 +9,7 @@
 
 ### Features
 
-* upgrade azurerm provder to v4 ([#31](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/31)) ([27718d7](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/27718d75b0f5b1c46d26367fee542ccfb124d6be))
+* upgrade azurerm provider to v4 ([#31](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/31)) ([27718d7](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/27718d75b0f5b1c46d26367fee542ccfb124d6be))
 
 ### Upgrade from v1.0.0 to v2.0.0:
 

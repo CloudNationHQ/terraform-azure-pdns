@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v2.0.0...v2.1.0) (2024-10-11)
+
+
+### Features
+
+* auto generated docs and refine makefile ([#34](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/34)) ([8769398](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/87693980931fe0cca9a97cb2b783f7f6760dc172))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#33](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/33)) ([3120375](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/3120375bd7a6227efbcc925a567c2d1336b1a0f8))
+
 ## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v1.0.0...v2.0.0) (2024-09-24)
 
 

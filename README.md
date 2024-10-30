@@ -24,11 +24,11 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Features
 
-- Support the deployment of multiple private dns zones.
-- Enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone.
-- Utilization of terratest for robust validation.
-- Allows multiple virtual network links per private dns zone.
-- Provides support for utilizing existing private dns zones.
+- support the deployment of multiple private and public dns zones.
+- enables the creation of multiple A, SRV, Alias, MX, and TXT records within each zone.
+- utilization of terratest for robust validation.
+- allows multiple virtual network links per private dns zone.
+- provides support for utilizing existing private dns zones.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -48,6 +48,15 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 | Name | Type |
 |------|------|
+| [azurerm_dns_a_record.a](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_aaaa_record.aaaa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_aaaa_record) | resource |
+| [azurerm_dns_caa_record.caa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_caa_record) | resource |
+| [azurerm_dns_cname_record.cname](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_cname_record) | resource |
+| [azurerm_dns_ns_record.ns](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_ns_record) | resource |
+| [azurerm_dns_ptr_record.ptr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_ptr_record) | resource |
+| [azurerm_dns_srv_record.srv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_srv_record) | resource |
+| [azurerm_dns_txt_record.txt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_txt_record) | resource |
+| [azurerm_dns_zone.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_zone) | resource |
 | [azurerm_private_dns_a_record.a](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [azurerm_private_dns_cname_record.cname](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_cname_record) | resource |
 | [azurerm_private_dns_mx_record.mx](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_mx_record) | resource |
@@ -70,7 +79,8 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 | Name | Description |
 |------|-------------|
-| <a name="output_zones"></a> [zones](#output\_zones) | contains private dns zones |
+| <a name="output_private_zones"></a> [private\_zones](#output\_private\_zones) | Contains all private DNS zones (both new and existing) |
+| <a name="output_public_zones"></a> [public\_zones](#output\_public\_zones) | Contains all public DNS zones |
 <!-- END_TF_DOCS -->
 
 ## Testing

@@ -11,15 +11,15 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
 }
 
-module "network1" {
+module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 4.0"
+  version = "~> 7.0"
 
   naming = local.naming
 
@@ -37,36 +37,31 @@ module "network1" {
   }
 }
 
-module "network2" {
-  source  = "cloudnationhq/vnet/azure"
-  version = "~> 4.0"
-
-  naming = local.naming
-
-  vnet = {
-    name           = "vnet2-demo-dev"
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
-    cidr           = ["10.20.0.0/16"]
-
-    subnets = {
-      sn1 = {
-        cidr = ["10.20.1.0/24"]
-      }
-    }
-  }
-}
-
 module "private_dns" {
-  source  = "cloudnationhq/pdns/azure"
-  version = "~> 2.0"
+  source  = "cloudnationhq/pdns/azure/"
+  version = "~> 3.0"
 
   resource_group = module.rg.groups.demo.name
 
   zones = {
-    vault = {
-      name                  = "privatelink.vaultcore.azure.net"
-      virtual_network_links = local.virtual_network_links
+    private = {
+      vault = {
+        name    = "privatelink.vaultcore.azure.net"
+        records = local.records
+        virtual_network_links = {
+          link1 = {
+            virtual_network_id = module.network.vnet.id
+          }
+        }
+      }
+      sql = {
+        name = "privatelink.database.windows.net"
+        virtual_network_links = {
+          link1 = {
+            virtual_network_id = module.network.vnet.id
+          }
+        }
+      }
     }
   }
 }

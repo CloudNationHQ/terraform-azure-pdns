@@ -2,7 +2,7 @@ module "naming" {
   source  = "cloudnationhq/naming/azure"
   version = "~> 0.1"
 
-  suffix = ["demo", "dev"]
+  suffix = ["demo", "ex"]
 }
 
 module "rg" {
@@ -11,7 +11,7 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
@@ -19,7 +19,7 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 4.0"
+  version = "~> 7.0"
 
   naming = local.naming
 
@@ -39,7 +39,7 @@ module "network" {
 
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure/"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   providers = {
     azurerm = azurerm.connectivity

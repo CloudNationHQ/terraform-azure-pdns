@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v2.1.0...v3.0.0) (2024-10-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support for public dns zones and record types ([#36](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/36))
+
+### Features
+
+* add support for public dns zones and record types ([#36](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/36)) ([2e11725](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/2e117251a16c237f3e925aa4508e71cd455e7887))
+
 ## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v2.0.0...v2.1.0) (2024-10-11)
 
 

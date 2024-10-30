@@ -99,7 +99,7 @@ variable "predefined_private_dns_zones" {
     azure_cosmos_db_table = {
       name = "privatelink.table.cosmos.azure.com"
     }
-    azure_cosmos_db_analytical = {
+    azure_cosmos_ddfmb_analytical = {
       name = "privatelink.analytics.cosmos.azure.com"
     }
     azure_cosmos_db_postgres = {

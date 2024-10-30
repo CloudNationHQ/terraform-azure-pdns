@@ -69,12 +69,11 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Inputs
 
-| Name | Description | Type | Required |
-|------|-------------|------|:--------:|
-| <a name="input_predefined_private_dns_zones"></a> [predefined\_private\_dns\_zones](#input\_predefined\_private\_dns\_zones) | predefined private dns zones for azure services | <pre>map(object({<br/>    name = string<br/>  }))</pre> | no |
-| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | default resource group to be used. | `string` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | `map(string)` | no |
-| <a name="input_zones"></a> [zones](#input\_zones) | contains private dns zones configuration | `any` | yes |
+| Name | Description | Required |
+|------|-------------|:--------:|
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | default resource group to be used. | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | no |
+| <a name="input_zones"></a> [zones](#input\_zones) | contains private dns zones configuration | yes |
 
 ## Outputs
 

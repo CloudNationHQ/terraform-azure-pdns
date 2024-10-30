@@ -5,11 +5,19 @@
 
 ### ⚠ BREAKING CHANGES
 
-* add support for public dns zones and record types ([#36](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/36))
+* the data structure has been enhanced to accommodate both public and private dns zones
 
 ### Features
 
 * add support for public dns zones and record types ([#36](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/36)) ([2e11725](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/2e117251a16c237f3e925aa4508e71cd455e7887))
+
+### Upgrade from v2.1.0 to v3.0.0:
+
+- Update module reference to: `version = "~> 3.0"`
+- Restructure the zones object:
+  - within zones either private or public is required now to categorize the zone types
+- Added output variables:
+  - private_zones and public_zones
 
 ## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v2.0.0...v2.1.0) (2024-10-11)
 

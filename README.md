@@ -29,6 +29,7 @@ End-to-end testing is not conducted on these modules, as they are individual com
 - utilization of terratest for robust validation.
 - allows multiple virtual network links per private dns zone.
 - provides support for utilizing existing private dns zones.
+- support for pre defined zone deployment
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

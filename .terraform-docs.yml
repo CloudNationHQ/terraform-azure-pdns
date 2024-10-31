@@ -8,4 +8,4 @@ settings:
   indent: 2
   required: true
   sensitive: true
-  type: false
+  type: true

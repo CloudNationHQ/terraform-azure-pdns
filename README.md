@@ -1,4 +1,4 @@
-# Private Dns Zones
+# Dns Zones
 
 This Terraform module optimizes the setup and administration of private dns zones, ensuring secure and confidential name resolution for azure services. It offers adaptable configuration options to enhance network security and streamline service connectivity.
 

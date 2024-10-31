@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.0.0...v3.1.0) (2024-10-31)
+
+
+### Features
+
+* add predefined zone support ([#38](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/38)) ([4f15f8c](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/4f15f8c7d5af1d2efef257d82a4216bac0555931))
+
 ## [3.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v2.1.0...v3.0.0) (2024-10-30)
 
 

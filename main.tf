@@ -283,27 +283,41 @@ data "azurerm_private_dns_zone" "existing_zone" {
 
 # private dns zones
 resource "azurerm_private_dns_zone" "zone" {
-  for_each = {
-    for zone_key, zone in lookup(var.zones, "private", {}) :
-    zone_key => {
-      name              = zone.name
-      resource_group    = try(zone.resource_group, var.resource_group)
-      use_existing_zone = try(zone.use_existing_zone, false)
-      tags              = try(zone.tags, var.tags, null)
+  for_each = merge(
+    {
+      # individual zones
+      for zone_key, zone in lookup(var.zones, "private", {}) :
+      zone_key => {
+        name           = zone.name
+        resource_group = try(zone.resource_group, var.resource_group)
+        tags           = try(zone.tags, var.tags, null)
+      }
+      if try(zone.use_existing_zone, false) == false && !tobool(try(var.zones.private.use_predefined_zones, false))
+    },
+    {
+      # predefined zones
+      for name, zone in var.predefined_private_dns_zones :
+      name => {
+        name           = zone.name
+        resource_group = var.resource_group
+        tags           = var.tags
+      }
+      if try(lookup(var.zones.private, "use_predefined_zones", false), false)
     }
-    if try(zone.use_existing_zone, false) == false
-  }
+  )
 
   name                = each.value.name
   resource_group_name = each.value.resource_group
   tags                = each.value.tags
+
 }
 
 # private dns a records
 resource "azurerm_private_dns_a_record" "a" {
   for_each = {
     for item in flatten([
-      for zone_key, zone in lookup(var.zones, "private", {}) : [
+      for zone_key, zone in lookup(var.zones, "private", {}) :
+      [
         for a_key, a in lookup(lookup(zone, "records", {}), "a", {}) : {
           zone_key          = zone_key
           a_key             = a_key
@@ -315,6 +329,7 @@ resource "azurerm_private_dns_a_record" "a" {
           use_existing_zone = try(zone.use_existing_zone, false)
         }
       ]
+      if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
     ]) : "${item.zone_key}.${item.a_key}" => item
   }
 
@@ -326,7 +341,6 @@ resource "azurerm_private_dns_a_record" "a" {
   tags                = each.value.tags
 }
 
-# private dns cname records
 resource "azurerm_private_dns_cname_record" "cname" {
   for_each = {
     for item in flatten([
@@ -342,6 +356,7 @@ resource "azurerm_private_dns_cname_record" "cname" {
           use_existing_zone = try(zone.use_existing_zone, false)
         }
       ]
+      if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
     ]) : "${item.zone_key}.${item.cname_key}" => item
   }
 
@@ -353,7 +368,6 @@ resource "azurerm_private_dns_cname_record" "cname" {
   tags                = each.value.tags
 }
 
-# private dns ptr records
 resource "azurerm_private_dns_ptr_record" "ptr" {
   for_each = {
     for item in flatten([
@@ -369,6 +383,7 @@ resource "azurerm_private_dns_ptr_record" "ptr" {
           use_existing_zone = try(zone.use_existing_zone, false)
         }
       ]
+      if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
     ]) : "${item.zone_key}.${item.ptr_key}" => item
   }
 
@@ -380,7 +395,6 @@ resource "azurerm_private_dns_ptr_record" "ptr" {
   tags                = each.value.tags
 }
 
-# private dns srv records
 resource "azurerm_private_dns_srv_record" "srv" {
   for_each = {
     for item in flatten([
@@ -396,6 +410,7 @@ resource "azurerm_private_dns_srv_record" "srv" {
           use_existing_zone = try(zone.use_existing_zone, false)
         }
       ]
+      if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
     ]) : "${item.zone_key}.${item.srv_key}" => item
   }
 
@@ -416,7 +431,6 @@ resource "azurerm_private_dns_srv_record" "srv" {
   }
 }
 
-# private dns txt records
 resource "azurerm_private_dns_txt_record" "txt" {
   for_each = {
     for item in flatten([
@@ -432,6 +446,7 @@ resource "azurerm_private_dns_txt_record" "txt" {
           use_existing_zone = try(zone.use_existing_zone, false)
         }
       ]
+      if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
     ]) : "${item.zone_key}.${item.txt_key}" => item
   }
 
@@ -449,7 +464,6 @@ resource "azurerm_private_dns_txt_record" "txt" {
   }
 }
 
-# private dns mx records
 resource "azurerm_private_dns_mx_record" "mx" {
   for_each = {
     for item in flatten([
@@ -465,6 +479,7 @@ resource "azurerm_private_dns_mx_record" "mx" {
           use_existing_zone = try(zone.use_existing_zone, false)
         }
       ]
+      if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
     ]) : "${item.zone_key}.${item.mx_key}" => item
   }
 
@@ -486,19 +501,38 @@ resource "azurerm_private_dns_mx_record" "mx" {
 # virtual network links
 resource "azurerm_private_dns_zone_virtual_network_link" "link" {
   for_each = {
-    for item in flatten([
-      for zone_key, zone in lookup(var.zones, "private", {}) : [
-        for link_key, link in lookup(zone, "virtual_network_links", {}) : {
-          zone_key             = zone_key
-          link_key             = link_key
-          virtual_network_id   = link.virtual_network_id
-          registration_enabled = try(link.registration_enabled, false)
-          tags                 = try(link.tags, var.tags, null)
-          use_existing_zone    = try(zone.use_existing_zone, false)
-          resource_group       = try(zone.resource_group, var.resource_group)
-        }
-      ]
-    ]) : "${item.zone_key}-${item.link_key}" => item
+    for item in concat(
+      # individual zone links
+      flatten([
+        for zone_key, zone in lookup(var.zones, "private", {}) : [
+          for link_key, link in lookup(zone, "virtual_network_links", {}) : {
+            zone_key             = zone_key
+            link_key             = link_key
+            virtual_network_id   = link.virtual_network_id
+            registration_enabled = try(link.registration_enabled, false)
+            tags                 = try(link.tags, var.tags, null)
+            use_existing_zone    = try(zone.use_existing_zone, false)
+            resource_group       = try(zone.resource_group, var.resource_group)
+          }
+        ]
+        if !tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
+      ]),
+      # predefined zone links
+      flatten([
+        for name in keys(var.predefined_private_dns_zones) : [
+          for link_key, link in lookup(var.zones.private, "virtual_network_links", {}) : {
+            zone_key             = name
+            link_key             = link_key
+            virtual_network_id   = link.virtual_network_id
+            registration_enabled = try(link.registration_enabled, false)
+            tags                 = var.tags
+            use_existing_zone    = false
+            resource_group       = var.resource_group
+          }
+        ]
+        if tobool(try(lookup(var.zones.private, "use_predefined_zones", false), false))
+      ])
+    ) : "${item.zone_key}-${item.link_key}" => item
   }
 
   name                  = each.value.link_key
@@ -507,4 +541,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "link" {
   virtual_network_id    = each.value.virtual_network_id
   registration_enabled  = each.value.registration_enabled
   tags                  = each.value.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

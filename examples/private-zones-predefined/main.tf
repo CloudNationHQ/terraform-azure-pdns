@@ -45,21 +45,10 @@ module "private_dns" {
 
   zones = {
     private = {
-      vault = {
-        name    = "privatelink.vaultcore.azure.net"
-        records = local.records
-        virtual_network_links = {
-          link1 = {
-            virtual_network_id = module.network.vnet.id
-          }
-        }
-      }
-      sql = {
-        name = "privatelink.database.windows.net"
-        virtual_network_links = {
-          link1 = {
-            virtual_network_id = module.network.vnet.id
-          }
+      use_predefined_zones = true
+      virtual_network_links = {
+        link1 = {
+          virtual_network_id = module.network.vnet.id
         }
       }
     }

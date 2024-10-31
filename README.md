@@ -69,17 +69,18 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | default resource group to be used. | `string` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | `map(string)` | `{}` | no |
-| <a name="input_zones"></a> [zones](#input\_zones) | contains private dns zones configuration | `any` | n/a | yes |
+| Name | Description | Required |
+|------|-------------|:--------:|
+| <a name="input_predefined_private_dns_zones"></a> [predefined\_private\_dns\_zones](#input\_predefined\_private\_dns\_zones) | predefined private dns zones for azure services | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | default resource group to be used. | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | no |
+| <a name="input_zones"></a> [zones](#input\_zones) | contains private dns zones configuration | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_private_zones"></a> [private\_zones](#output\_private\_zones) | Contains all private DNS zones (both new and existing) |
+| <a name="output_private_zones"></a> [private\_zones](#output\_private\_zones) | Contains all private DNS zones (new, existing, and predefined) |
 | <a name="output_public_zones"></a> [public\_zones](#output\_public\_zones) | Contains all public DNS zones |
 <!-- END_TF_DOCS -->
 
@@ -120,3 +121,4 @@ MIT Licensed. See [LICENSE](./LICENSE) for full details.
 - [Documentation](https://learn.microsoft.com/en-us/azure/dns/private-dns-privatednszone)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/dns/privatedns/operation-groups)
 - [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json)
+

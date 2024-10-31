@@ -3,9 +3,9 @@ formatter: "markdown table"
 settings:
   anchor: true
   color: true
-  default: false
+  default: true
   escape: true
   indent: 2
   required: true
   sensitive: true
-  type: false
+  type: true

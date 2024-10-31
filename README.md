@@ -69,7 +69,7 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Inputs
 
-| Name | Description | |
+| Name | Description | Required |
 |------|-------------|:--------:|
 | <a name="input_predefined_private_dns_zones"></a> [predefined\_private\_dns\_zones](#input\_predefined\_private\_dns\_zones) | predefined private dns zones for azure services | no |
 | <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | default resource group to be used. | no |

@@ -38,7 +38,7 @@ module "network" {
 }
 
 module "private_dns" {
-  source  = "cloudnationhq/pdns/azure/"
+  source  = "cloudnationhq/pdns/azure"
   version = "~> 3.0"
 
   resource_group = module.rg.groups.demo.name

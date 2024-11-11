@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.2.0...v3.2.1) (2024-11-11)
+
+
+### Bug Fixes
+
+* fix wrong module references all usages ([#42](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/42)) ([c01f03f](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/c01f03f8d68f850eceb9ea0c9fd18d03178658de))
+
 ## [3.2.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.1.0...v3.2.0) (2024-11-11)
 
 

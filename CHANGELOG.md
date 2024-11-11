@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.1.0...v3.2.0) (2024-11-11)
+
+
+### Features
+
+* enhance testing with sequential, parallel modes and flags for exceptions and skip-destroy ([#40](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/40)) ([34042e4](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/34042e440d54939b6c5f1376fc9d7ac5f83d050a))
+
 ## [3.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.0.0...v3.1.0) (2024-10-31)
 
 

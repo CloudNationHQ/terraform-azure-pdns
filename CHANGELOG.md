@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.3.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.2.1...v3.3.0) (2025-01-20)
+
+
+### Features
+
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#46](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/46)) ([02182c5](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/02182c55ba11afe007d5c5e864be3baee7b1b669))
+* remove temporary files when deployment tests fails ([#47](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/47)) ([333707c](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/333707c4aab988a997e12a525e65ca7fdb924a2a))
+
 ## [3.2.1](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.2.0...v3.2.1) (2024-11-11)
 
 

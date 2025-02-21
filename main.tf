@@ -290,6 +290,7 @@ resource "azurerm_private_dns_zone" "zone" {
       zone_key => {
         name           = zone.name
         resource_group = try(zone.resource_group, var.resource_group)
+        soa_record     = try(zone.soa_record, null)
         tags           = try(zone.tags, var.tags, null)
       }
       if try(zone.use_existing_zone, false) == false && !tobool(try(var.zones.private.use_predefined_zones, false))
@@ -300,6 +301,7 @@ resource "azurerm_private_dns_zone" "zone" {
       name => {
         name           = zone.name
         resource_group = var.resource_group
+        soa_record     = try(zone.soa_record, null)
         tags           = var.tags
       }
       if try(lookup(var.zones.private, "use_predefined_zones", false), false)
@@ -310,6 +312,19 @@ resource "azurerm_private_dns_zone" "zone" {
   resource_group_name = each.value.resource_group
   tags                = each.value.tags
 
+  dynamic "soa_record" {
+    for_each = each.value.soa_record != null ? [each.value.soa_record] : []
+
+    content {
+      email        = soa_record.value.email
+      expire_time  = try(soa_record.value.expire_time, 2419200)
+      minimum_ttl  = try(soa_record.value.minimum_ttl, 10)
+      refresh_time = try(soa_record.value.refresh_time, 3600)
+      retry_time   = try(soa_record.value.retry_time, 300)
+      ttl          = try(soa_record.value.ttl, 3600)
+      tags         = soa_record.value.tags
+    }
+  }
 }
 
 # private dns a records

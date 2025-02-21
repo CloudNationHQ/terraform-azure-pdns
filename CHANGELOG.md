@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.4.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.3.0...v3.4.0) (2025-02-21)
+
+
+### Features
+
+* add support for SOA records in private DNS zone configuration ([#52](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/52)) ([1cbcc60](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/1cbcc60b4b111146ce6783e73d0f08e962926992))
+* **deps:** bump the go_modules group in /tests with 2 updates ([#50](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/50)) ([23b15eb](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/23b15eb580aab424b7e258c6ef274949c4ca32cb))
+
 ## [3.3.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.2.1...v3.3.0) (2025-01-20)
 
 

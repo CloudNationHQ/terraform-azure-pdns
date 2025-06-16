@@ -118,6 +118,40 @@ resource "azurerm_dns_caa_record" "caa" {
   }
 }
 
+#public mx records
+resource "azurerm_dns_mx_record" "mx" {
+  for_each = {
+    for item in flatten([
+      for zone_key, zone in lookup(var.zones, "public", {}) : [
+        for mx_key, mx in lookup(lookup(zone, "records", {}), "mx", {}) : {
+          zone_key       = zone_key
+          mx_key         = mx_key
+          resource_group = try(zone.resource_group, var.resource_group)
+          name           = mx.name
+          ttl            = mx.ttl
+          records        = mx.records
+          tags           = try(mx.tags, var.tags, null)
+        }
+      ]
+    ]) : "${item.zone_key}.${item.mx_key}" => item
+  }
+
+  name                = each.value.name
+  resource_group_name = each.value.resource_group
+  ttl                 = each.value.ttl
+  zone_name           = azurerm_dns_zone.this[each.value.zone_key].name
+  tags                = each.value.tags
+
+  dynamic "record" {
+    for_each = each.value.records
+
+    content {
+      preference = record.value.preference
+      exchange   = record.value.exchange
+    }
+  }
+}
+
 # public dns cname records
 resource "azurerm_dns_cname_record" "cname" {
   for_each = {
@@ -514,6 +548,7 @@ resource "azurerm_private_dns_mx_record" "mx" {
 }
 
 # virtual network links
+#TODO: submodule because of linking, top level multiple
 resource "azurerm_private_dns_zone_virtual_network_link" "link" {
   for_each = {
     for item in concat(

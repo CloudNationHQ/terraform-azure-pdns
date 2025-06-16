@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.5.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.4.0...v3.5.0) (2025-06-16)
+
+
+### Features
+
+* add mx record support public dns ([#58](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/58)) ([a0003f2](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/a0003f25384c8269a3d6d206f6ec2bac81584123))
+* **deps:** bump golang.org/x/net in /tests in the go_modules group ([#54](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/54)) ([8acc037](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/8acc03799b235ef580099fa208d88156678a4b98))
+
 ## [3.4.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.3.0...v3.4.0) (2025-02-21)
 
 

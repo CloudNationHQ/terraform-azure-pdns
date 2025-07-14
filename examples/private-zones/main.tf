@@ -51,6 +51,7 @@ module "private_dns" {
         virtual_network_links = {
           link1 = {
             virtual_network_id = module.network.vnet.id
+            resolution_policy  = "Default"
           }
         }
       }
@@ -59,6 +60,7 @@ module "private_dns" {
         virtual_network_links = {
           link1 = {
             virtual_network_id = module.network.vnet.id
+            resolution_policy  = "NxDomainRedirect"
           }
         }
       }

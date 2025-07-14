@@ -561,6 +561,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "link" {
             virtual_network_id   = link.virtual_network_id
             registration_enabled = try(link.registration_enabled, false)
             tags                 = try(link.tags, var.tags, null)
+            resolution_policy    = try(link.resolution_policy, null)
             use_existing_zone    = try(zone.use_existing_zone, false)
             resource_group       = try(zone.resource_group, var.resource_group)
           }
@@ -576,6 +577,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "link" {
             virtual_network_id   = link.virtual_network_id
             registration_enabled = try(link.registration_enabled, false)
             tags                 = var.tags
+            resolution_policy    = try(link.resolution_policy, null)
             use_existing_zone    = false
             resource_group       = var.resource_group
           }
@@ -590,6 +592,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "link" {
   private_dns_zone_name = each.value.use_existing_zone ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
   virtual_network_id    = each.value.virtual_network_id
   registration_enabled  = each.value.registration_enabled
+  resolution_policy     = each.value.resolution_policy
   tags                  = each.value.tags
 
   lifecycle {

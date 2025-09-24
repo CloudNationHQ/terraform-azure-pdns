@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.6.0...v4.0.0) (2025-09-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* this change causes recreates
+
+### Features
+
+* add type definitions and changed data structure ([#71](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/71)) ([b24c540](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/b24c540927c8bf92888ad65c162915548b1dd5f2))
+
 ## [3.6.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.5.0...v3.6.0) (2025-07-14)
 
 

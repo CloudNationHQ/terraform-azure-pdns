@@ -11,6 +11,15 @@ locals {
             registration_enabled = true
           }
         }
+        records = {
+          a = {
+            key1 = {
+              name    = "keyvault"
+              ttl     = 3600
+              records = ["10.0.0.5"]
+            }
+          }
+        }
       }
     }
   }

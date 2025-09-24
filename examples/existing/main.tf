@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.1"
+  version = "~> 0.24"
 
   suffix = ["demo", "ex"]
 }
@@ -19,19 +19,19 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 7.0"
+  version = "~> 9.0"
 
   naming = local.naming
 
   vnet = {
-    name           = "vnet-demo-dev-01"
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
-    cidr           = ["10.19.0.0/16"]
+    name                = "vnet-demo-dev-01"
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+    address_space       = ["10.19.0.0/16"]
 
     subnets = {
       sn1 = {
-        cidr = ["10.19.1.0/24"]
+        address_prefixes = ["10.19.1.0/24"]
       }
     }
   }
@@ -39,12 +39,12 @@ module "network" {
 
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   providers = {
     azurerm = azurerm.connectivity
   }
 
-  resource_group = "rg-demo-zones"
-  zones          = local.zones
+  resource_group_name = "rg-demo-zones"
+  zones               = local.zones
 }

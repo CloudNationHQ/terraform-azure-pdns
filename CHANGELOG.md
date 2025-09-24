@@ -11,8 +11,12 @@
 
 * add type definitions and changed data structure ([#71](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/71)) ([b24c540](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/b24c540927c8bf92888ad65c162915548b1dd5f2))
 
-## [3.6.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.5.0...v3.6.0) (2025-07-14)
+### Upgrade from v3.6.0 to v4.0.0:
 
+- Update module reference to: `version = "~> 4.0"`
+- The property and variable resource_group is renamed to resource_group_name
+
+## [3.6.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.5.0...v3.6.0) (2025-07-14)
 
 ### Features
 

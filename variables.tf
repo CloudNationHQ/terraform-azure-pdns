@@ -157,7 +157,6 @@ variable "zones" {
     })), {})
     use_existing_zone = optional(bool, false)
   })
-  default = {}
 }
 
 variable "use_existing_private_dns_zone" {
@@ -176,7 +175,6 @@ variable "virtual_network_links" {
   }))
   default = {}
 }
-
 
 variable "resource_group_name" {
   description = "Default resource group to be used when not specified at zone level"

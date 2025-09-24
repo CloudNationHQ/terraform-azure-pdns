@@ -61,6 +61,174 @@ The following input variables are required:
 
 Description: Default resource group to be used when not specified at zone level
 
+Type: `string`
+
+### <a name="input_zones"></a> [zones](#input\_zones)
+
+Description: DNS zones configuration for both public and private zones
+
+Type:
+
+```hcl
+object({
+    public = optional(map(object({
+      name                = string
+      resource_group_name = optional(string)
+      use_existing_zone   = optional(bool, false)
+      tags                = optional(map(string))
+      soa_record = optional(object({
+        email         = string
+        ttl           = optional(number, 3600)
+        expire_time   = optional(number, 2419200)
+        retry_time    = optional(number, 300)
+        minimum_ttl   = optional(number, 300)
+        refresh_time  = optional(number, 3600)
+        serial_number = optional(number, 1)
+        tags          = optional(map(string))
+      }))
+      records = optional(object({
+        a = optional(map(object({
+          name               = optional(string)
+          ttl                = number
+          records            = list(string)
+          tags               = optional(map(string))
+          target_resource_id = optional(string)
+        })), {})
+        aaaa = optional(map(object({
+          name               = optional(string)
+          ttl                = number
+          records            = list(string)
+          tags               = optional(map(string))
+          target_resource_id = optional(string)
+        })), {})
+        caa = optional(map(object({
+          name = optional(string)
+          ttl  = number
+          records = list(object({
+            flags = number
+            tag   = string
+            value = string
+          }))
+          tags = optional(map(string))
+        })), {})
+        cname = optional(map(object({
+          name               = optional(string)
+          ttl                = number
+          record             = string
+          tags               = optional(map(string))
+          target_resource_id = optional(string)
+        })), {})
+        mx = optional(map(object({
+          name = optional(string)
+          ttl  = number
+          records = list(object({
+            preference = number
+            exchange   = string
+          }))
+          tags = optional(map(string))
+        })), {})
+        ns = optional(map(object({
+          name    = optional(string)
+          ttl     = number
+          records = list(string)
+          tags    = optional(map(string))
+        })), {})
+        ptr = optional(map(object({
+          name    = optional(string)
+          ttl     = number
+          records = list(string)
+          tags    = optional(map(string))
+        })), {})
+        srv = optional(map(object({
+          name = optional(string)
+          ttl  = number
+          records = map(object({
+            priority = number
+            weight   = number
+            port     = number
+            target   = string
+          }))
+          tags = optional(map(string))
+        })), {})
+        txt = optional(map(object({
+          name    = optional(string)
+          ttl     = number
+          records = list(string)
+          tags    = optional(map(string))
+        })), {})
+      }), {})
+    })), {})
+    private = optional(map(object({
+      name                = string
+      resource_group_name = optional(string)
+      use_existing_zone   = optional(bool, false)
+      tags                = optional(map(string))
+      virtual_network_links = optional(map(object({
+        virtual_network_id   = string
+        registration_enabled = optional(bool, false)
+        resolution_policy    = optional(string)
+        tags                 = optional(map(string))
+      })))
+      soa_record = optional(object({
+        email        = string
+        expire_time  = optional(number, 2419200)
+        minimum_ttl  = optional(number, 10)
+        refresh_time = optional(number, 3600)
+        retry_time   = optional(number, 300)
+        ttl          = optional(number, 3600)
+        tags         = optional(map(string))
+      }))
+      records = optional(object({
+        a = optional(map(object({
+          name    = optional(string)
+          ttl     = number
+          records = list(string)
+          tags    = optional(map(string))
+        })), {})
+        cname = optional(map(object({
+          name   = optional(string)
+          ttl    = number
+          record = string
+          tags   = optional(map(string))
+        })), {})
+        mx = optional(map(object({
+          name = optional(string)
+          ttl  = number
+          records = list(object({
+            preference = number
+            exchange   = string
+          }))
+          tags = optional(map(string))
+        })), {})
+        ptr = optional(map(object({
+          name    = optional(string)
+          ttl     = number
+          records = list(string)
+          tags    = optional(map(string))
+        })), {})
+        srv = optional(map(object({
+          name = optional(string)
+          ttl  = number
+          records = map(object({
+            priority = number
+            weight   = number
+            port     = number
+            target   = string
+          }))
+          tags = optional(map(string))
+        })), {})
+        txt = optional(map(object({
+          name    = optional(string)
+          ttl     = number
+          records = list(string)
+          tags    = optional(map(string))
+        })), {})
+      }), {})
+    })), {})
+    use_existing_zone = optional(bool, false)
+  })
+```
+
 ## Optional Inputs
 
 The following input variables are optional (have default values):
@@ -69,17 +237,34 @@ The following input variables are optional (have default values):
 
 Description: tags to be added to the resources
 
+Type: `map(string)`
+
+Default: `{}`
+
 ### <a name="input_use_existing_private_dns_zone"></a> [use\_existing\_private\_dns\_zone](#input\_use\_existing\_private\_dns\_zone)
 
 Description: whether to use existing private dns zones
+
+Type: `bool`
+
+Default: `false`
 
 ### <a name="input_virtual_network_links"></a> [virtual\_network\_links](#input\_virtual\_network\_links)
 
 Description: Virtual network links to apply to all private DNS zones (fallback when zone-specific links are not defined)
 
-### <a name="input_zones"></a> [zones](#input\_zones)
+Type:
 
-Description: DNS zones configuration for both public and private zones
+```hcl
+map(object({
+    virtual_network_id   = string
+    registration_enabled = optional(bool, false)
+    resolution_policy    = optional(string)
+    tags                 = optional(map(string))
+  }))
+```
+
+Default: `{}`
 
 ## Outputs
 

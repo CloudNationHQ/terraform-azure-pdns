@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v4.0.0...v4.1.0) (2025-11-04)
+
+
+### Features
+
+* add missing tags property existing private dns zone ([#74](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/74)) ([58ba453](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/58ba453ca05c5bb4892b6ede3669b81a88926078))
+
 ## [4.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v3.6.0...v4.0.0) (2025-09-24)
 
 

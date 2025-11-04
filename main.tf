@@ -13,6 +13,11 @@ data "azurerm_private_dns_zone" "existing_zone" {
     lookup(each.value, "resource_group_name", null),
     var.resource_group_name
   )
+
+  tags = coalesce(
+    try(each.value.tags, null),
+    var.tags
+  )
 }
 
 # public dns zone

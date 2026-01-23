@@ -313,5 +313,3 @@ MIT Licensed. See [LICENSE](./LICENSE) for full details.
 
 - [Documentation](https://learn.microsoft.com/en-us/azure/dns/private-dns-privatednszone)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/dns/privatedns/operation-groups)
-- [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json)
-

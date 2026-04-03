@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.2.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v4.1.0...v4.2.0) (2026-04-03)
+
+
+### Features
+
+* add missing outputs ([#86](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/86)) ([1e73cd6](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/1e73cd6d534079a4f3aea58fee7b73db9ec9237d))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#82](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/82)) ([8c7733f](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/8c7733fec949f1ca42808c98354458347901813c))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#84](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/84)) ([77c28af](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/77c28afb96ac20c84fa834e0a67d3aa9934f9cc7))
+* fix linting issue ([#80](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/80)) ([e6d534c](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/e6d534c21d7b7172ae1b91ad9b43d134c652d752))
+
 ## [4.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v4.0.0...v4.1.0) (2025-11-04)
 
 

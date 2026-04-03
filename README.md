@@ -270,13 +270,77 @@ Default: `{}`
 
 The following outputs are exported:
 
+### <a name="output_private_a_records"></a> [private\_a\_records](#output\_private\_a\_records)
+
+Description: Contains all private DNS A records
+
+### <a name="output_private_cname_records"></a> [private\_cname\_records](#output\_private\_cname\_records)
+
+Description: Contains all private DNS CNAME records
+
+### <a name="output_private_mx_records"></a> [private\_mx\_records](#output\_private\_mx\_records)
+
+Description: Contains all private DNS MX records
+
+### <a name="output_private_ptr_records"></a> [private\_ptr\_records](#output\_private\_ptr\_records)
+
+Description: Contains all private DNS PTR records
+
+### <a name="output_private_srv_records"></a> [private\_srv\_records](#output\_private\_srv\_records)
+
+Description: Contains all private DNS SRV records
+
+### <a name="output_private_txt_records"></a> [private\_txt\_records](#output\_private\_txt\_records)
+
+Description: Contains all private DNS TXT records
+
 ### <a name="output_private_zones"></a> [private\_zones](#output\_private\_zones)
 
 Description: Contains all private DNS zones (new and existing)
 
+### <a name="output_public_a_records"></a> [public\_a\_records](#output\_public\_a\_records)
+
+Description: Contains all public DNS A records
+
+### <a name="output_public_aaaa_records"></a> [public\_aaaa\_records](#output\_public\_aaaa\_records)
+
+Description: Contains all public DNS AAAA records
+
+### <a name="output_public_caa_records"></a> [public\_caa\_records](#output\_public\_caa\_records)
+
+Description: Contains all public DNS CAA records
+
+### <a name="output_public_cname_records"></a> [public\_cname\_records](#output\_public\_cname\_records)
+
+Description: Contains all public DNS CNAME records
+
+### <a name="output_public_mx_records"></a> [public\_mx\_records](#output\_public\_mx\_records)
+
+Description: Contains all public DNS MX records
+
+### <a name="output_public_ns_records"></a> [public\_ns\_records](#output\_public\_ns\_records)
+
+Description: Contains all public DNS NS records
+
+### <a name="output_public_ptr_records"></a> [public\_ptr\_records](#output\_public\_ptr\_records)
+
+Description: Contains all public DNS PTR records
+
+### <a name="output_public_srv_records"></a> [public\_srv\_records](#output\_public\_srv\_records)
+
+Description: Contains all public DNS SRV records
+
+### <a name="output_public_txt_records"></a> [public\_txt\_records](#output\_public\_txt\_records)
+
+Description: Contains all public DNS TXT records
+
 ### <a name="output_public_zones"></a> [public\_zones](#output\_public\_zones)
 
 Description: Contains all public DNS zones
+
+### <a name="output_virtual_network_links"></a> [virtual\_network\_links](#output\_virtual\_network\_links)
+
+Description: Contains all private DNS zone virtual network links
 <!-- END_TF_DOCS -->
 
 ## Goals

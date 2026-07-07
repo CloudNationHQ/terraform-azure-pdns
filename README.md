@@ -164,6 +164,7 @@ object({
       use_existing_zone   = optional(bool, false)
       tags                = optional(map(string))
       virtual_network_links = optional(map(object({
+        name                 = optional(string)
         virtual_network_id   = string
         registration_enabled = optional(bool, false)
         resolution_policy    = optional(string)
@@ -257,6 +258,7 @@ Type:
 
 ```hcl
 map(object({
+    name                 = optional(string)
     virtual_network_id   = string
     registration_enabled = optional(bool, false)
     resolution_policy    = optional(string)

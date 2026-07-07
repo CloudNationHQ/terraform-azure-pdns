@@ -733,7 +733,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "link" {
     ]) : "${item.zone_key}-${item.link_key}" => item
   }
 
-  name = each.value.link_key
+  name = coalesce(each.value.link.name, each.value.link_key)
 
   resource_group_name = coalesce(
     lookup(

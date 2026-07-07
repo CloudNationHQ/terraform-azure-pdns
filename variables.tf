@@ -94,6 +94,7 @@ variable "zones" {
       use_existing_zone   = optional(bool, false)
       tags                = optional(map(string))
       virtual_network_links = optional(map(object({
+        name                 = optional(string)
         virtual_network_id   = string
         registration_enabled = optional(bool, false)
         resolution_policy    = optional(string)
@@ -168,6 +169,7 @@ variable "use_existing_private_dns_zone" {
 variable "virtual_network_links" {
   description = "Virtual network links to apply to all private DNS zones (fallback when zone-specific links are not defined)"
   type = map(object({
+    name                 = optional(string)
     virtual_network_id   = string
     registration_enabled = optional(bool, false)
     resolution_policy    = optional(string)

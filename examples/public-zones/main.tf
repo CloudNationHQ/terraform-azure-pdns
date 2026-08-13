@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,7 +19,7 @@ module "rg" {
 
 module "dns" {
   source  = "cloudnationhq/pdns/azure"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   resource_group_name = module.rg.groups.demo.name
 

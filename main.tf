@@ -10,13 +10,11 @@ data "azurerm_private_dns_zone" "existing_zone" {
   name = each.value.name
 
   resource_group_name = coalesce(
-    lookup(each.value, "resource_group_name", null),
-    var.resource_group_name
+    each.value.resource_group_name, var.resource_group_name
   )
 
   tags = coalesce(
-    try(each.value.tags, null),
-    var.tags
+    each.value.tags, var.tags
   )
 }
 
@@ -27,19 +25,15 @@ resource "azurerm_dns_zone" "this" {
   name = each.value.name
 
   resource_group_name = coalesce(
-    try(
-      each.value.resource_group_name, null
-    ), var.resource_group_name
+    each.value.resource_group_name, var.resource_group_name
   )
 
   tags = coalesce(
-    try(
-      each.value.tags, null
-    ), var.tags
+    each.value.tags, var.tags
   )
 
   dynamic "soa_record" {
-    for_each = try(each.value.soa_record, null) != null ? { "soa" = each.value.soa_record } : {}
+    for_each = each.value.soa_record != null ? { "this" = each.value.soa_record } : {}
 
     content {
       email         = soa_record.value.email
@@ -49,15 +43,13 @@ resource "azurerm_dns_zone" "this" {
       minimum_ttl   = soa_record.value.minimum_ttl
       refresh_time  = soa_record.value.refresh_time
       serial_number = soa_record.value.serial_number
-      tags = try(
-        soa_record.value.tags, var.tags, null
-      )
+      tags          = coalesce(soa_record.value.tags, var.tags)
     }
   }
 }
 
 # public dns a records
-resource "azurerm_dns_a_record" "a" {
+resource "azurerm_dns_a_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -71,14 +63,10 @@ resource "azurerm_dns_a_record" "a" {
     ]) : "${item.zone_key}.${item.a_key}" => item
   }
 
-  name = try(
-    each.value.a.name, each.value.a_key
-  )
+  name = coalesce(each.value.a.name, each.value.a_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl                = each.value.a.ttl
@@ -86,15 +74,11 @@ resource "azurerm_dns_a_record" "a" {
   zone_name          = azurerm_dns_zone.this[each.value.zone_key].name
   target_resource_id = each.value.a.target_resource_id
 
-  tags = coalesce(
-    try(
-      each.value.a.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.a.tags, var.tags)
 }
 
 # public dns aaaa records
-resource "azurerm_dns_aaaa_record" "aaaa" {
+resource "azurerm_dns_aaaa_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -108,13 +92,10 @@ resource "azurerm_dns_aaaa_record" "aaaa" {
     ]) : "${item.zone_key}.${item.aaaa_key}" => item
   }
 
-  name = try(
-    each.value.aaaa.name, each.value.aaaa_key
-  )
+  name = coalesce(each.value.aaaa.name, each.value.aaaa_key)
 
   resource_group_name = coalesce(
-    lookup(each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl                = each.value.aaaa.ttl
@@ -122,15 +103,11 @@ resource "azurerm_dns_aaaa_record" "aaaa" {
   zone_name          = azurerm_dns_zone.this[each.value.zone_key].name
   target_resource_id = each.value.aaaa.target_resource_id
 
-  tags = coalesce(
-    try(
-      each.value.aaaa.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.aaaa.tags, var.tags)
 }
 
 # public dns caa records
-resource "azurerm_dns_caa_record" "caa" {
+resource "azurerm_dns_caa_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -144,24 +121,16 @@ resource "azurerm_dns_caa_record" "caa" {
     ]) : "${item.zone_key}.${item.caa_key}" => item
   }
 
-  name = try(
-    each.value.caa.name, each.value.caa_key
-  )
+  name = coalesce(each.value.caa.name, each.value.caa_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl       = each.value.caa.ttl
   zone_name = azurerm_dns_zone.this[each.value.zone_key].name
 
-  tags = coalesce(
-    try(
-      each.value.caa.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.caa.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.caa.records
@@ -175,7 +144,7 @@ resource "azurerm_dns_caa_record" "caa" {
 }
 
 #public mx records
-resource "azurerm_dns_mx_record" "mx" {
+resource "azurerm_dns_mx_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -189,24 +158,16 @@ resource "azurerm_dns_mx_record" "mx" {
     ]) : "${item.zone_key}.${item.mx_key}" => item
   }
 
-  name = try(
-    each.value.mx.name, each.value.mx_key
-  )
+  name = coalesce(each.value.mx.name, each.value.mx_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl       = each.value.mx.ttl
   zone_name = azurerm_dns_zone.this[each.value.zone_key].name
 
-  tags = coalesce(
-    try(
-      each.value.mx.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.mx.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.mx.records
@@ -219,7 +180,7 @@ resource "azurerm_dns_mx_record" "mx" {
 }
 
 # public dns cname records
-resource "azurerm_dns_cname_record" "cname" {
+resource "azurerm_dns_cname_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -233,14 +194,10 @@ resource "azurerm_dns_cname_record" "cname" {
     ]) : "${item.zone_key}.${item.cname_key}" => item
   }
 
-  name = try(
-    each.value.cname.name, each.value.cname_key
-  )
+  name = coalesce(each.value.cname.name, each.value.cname_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl                = each.value.cname.ttl
@@ -248,15 +205,11 @@ resource "azurerm_dns_cname_record" "cname" {
   zone_name          = azurerm_dns_zone.this[each.value.zone_key].name
   target_resource_id = each.value.cname.target_resource_id
 
-  tags = coalesce(
-    try(
-      each.value.cname.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.cname.tags, var.tags)
 }
 
 # public dns ns records
-resource "azurerm_dns_ns_record" "ns" {
+resource "azurerm_dns_ns_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -270,29 +223,21 @@ resource "azurerm_dns_ns_record" "ns" {
     ]) : "${item.zone_key}.${item.ns_key}" => item
   }
 
-  name = try(
-    each.value.ns.name, each.value.ns_key
-  )
+  name = coalesce(each.value.ns.name, each.value.ns_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl       = each.value.ns.ttl
   records   = each.value.ns.records
   zone_name = azurerm_dns_zone.this[each.value.zone_key].name
 
-  tags = coalesce(
-    try(
-      each.value.ns.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.ns.tags, var.tags)
 }
 
 # public dns ptr records
-resource "azurerm_dns_ptr_record" "ptr" {
+resource "azurerm_dns_ptr_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -306,29 +251,21 @@ resource "azurerm_dns_ptr_record" "ptr" {
     ]) : "${item.zone_key}.${item.ptr_key}" => item
   }
 
-  name = try(
-    each.value.ptr.name, each.value.ptr_key
-  )
+  name = coalesce(each.value.ptr.name, each.value.ptr_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl       = each.value.ptr.ttl
   records   = each.value.ptr.records
   zone_name = azurerm_dns_zone.this[each.value.zone_key].name
 
-  tags = coalesce(
-    try(
-      each.value.ptr.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.ptr.tags, var.tags)
 }
 
 # public dns srv records
-resource "azurerm_dns_srv_record" "srv" {
+resource "azurerm_dns_srv_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -342,24 +279,16 @@ resource "azurerm_dns_srv_record" "srv" {
     ]) : "${item.zone_key}.${item.srv_key}" => item
   }
 
-  name = try(
-    each.value.srv.name, each.value.srv_key
-  )
+  name = coalesce(each.value.srv.name, each.value.srv_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl       = each.value.srv.ttl
   zone_name = azurerm_dns_zone.this[each.value.zone_key].name
 
-  tags = coalesce(
-    try(
-      each.value.srv.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.srv.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.srv.records
@@ -374,7 +303,7 @@ resource "azurerm_dns_srv_record" "srv" {
 }
 
 # public dns txt records
-resource "azurerm_dns_txt_record" "txt" {
+resource "azurerm_dns_txt_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.public : [
@@ -388,24 +317,16 @@ resource "azurerm_dns_txt_record" "txt" {
     ]) : "${item.zone_key}.${item.txt_key}" => item
   }
 
-  name = try(
-    each.value.txt.name, each.value.txt_key
-  )
+  name = coalesce(each.value.txt.name, each.value.txt_key)
 
   resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
+    each.value.zone.resource_group_name, var.resource_group_name
   )
 
   ttl       = each.value.txt.ttl
   zone_name = azurerm_dns_zone.this[each.value.zone_key].name
 
-  tags = coalesce(
-    try(
-      each.value.txt.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.txt.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.txt.records
@@ -417,7 +338,7 @@ resource "azurerm_dns_txt_record" "txt" {
 }
 
 # private dns zones
-resource "azurerm_private_dns_zone" "zone" {
+resource "azurerm_private_dns_zone" "this" {
   for_each = {
     for zone_key, zone in var.zones.private :
     zone_key => zone
@@ -429,17 +350,15 @@ resource "azurerm_private_dns_zone" "zone" {
   name = each.value.name
 
   resource_group_name = coalesce(
-    lookup(each.value, "resource_group_name", null),
-    var.resource_group_name
+    each.value.resource_group_name, var.resource_group_name
   )
 
   tags = coalesce(
-    try(each.value.tags, null),
-    var.tags
+    each.value.tags, var.tags
   )
 
   dynamic "soa_record" {
-    for_each = try(each.value.soa_record, null) != null ? [each.value.soa_record] : []
+    for_each = each.value.soa_record != null ? { "this" = each.value.soa_record } : {}
 
     content {
       email        = soa_record.value.email
@@ -448,15 +367,13 @@ resource "azurerm_private_dns_zone" "zone" {
       refresh_time = soa_record.value.refresh_time
       retry_time   = soa_record.value.retry_time
       ttl          = soa_record.value.ttl
-      tags = try(
-        soa_record.value.tags, var.tags, null
-      )
+      tags         = coalesce(soa_record.value.tags, var.tags)
     }
   }
 }
 
 # private dns a records
-resource "azurerm_private_dns_a_record" "a" {
+resource "azurerm_private_dns_a_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
@@ -470,32 +387,20 @@ resource "azurerm_private_dns_a_record" "a" {
     ]) : "${item.zone_key}.${item.a_key}" => item
   }
 
-  name = try(
-    each.value.a.name, each.value.a_key
-  )
-
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
+  name = coalesce(each.value.a.name, each.value.a_key)
 
   ttl     = each.value.a.ttl
   records = each.value.a.records
 
-  zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
-  tags = coalesce(
-    try(
-      each.value.a.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.a.tags, var.tags)
 }
 
-resource "azurerm_private_dns_cname_record" "cname" {
+resource "azurerm_private_dns_cname_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
@@ -509,32 +414,20 @@ resource "azurerm_private_dns_cname_record" "cname" {
     ]) : "${item.zone_key}.${item.cname_key}" => item
   }
 
-  name = try(
-    each.value.cname.name, each.value.cname_key
-  )
-
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
+  name = coalesce(each.value.cname.name, each.value.cname_key)
 
   ttl    = each.value.cname.ttl
   record = each.value.cname.record
 
-  zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
-  tags = coalesce(
-    try(
-      each.value.cname.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.cname.tags, var.tags)
 }
 
-resource "azurerm_private_dns_ptr_record" "ptr" {
+resource "azurerm_private_dns_ptr_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
@@ -548,32 +441,20 @@ resource "azurerm_private_dns_ptr_record" "ptr" {
     ]) : "${item.zone_key}.${item.ptr_key}" => item
   }
 
-  name = try(
-    each.value.ptr.name, each.value.ptr_key
-  )
-
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
+  name = coalesce(each.value.ptr.name, each.value.ptr_key)
 
   ttl     = each.value.ptr.ttl
   records = each.value.ptr.records
 
-  zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
-  tags = coalesce(
-    try(
-      each.value.ptr.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.ptr.tags, var.tags)
 }
 
-resource "azurerm_private_dns_srv_record" "srv" {
+resource "azurerm_private_dns_srv_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
@@ -587,28 +468,16 @@ resource "azurerm_private_dns_srv_record" "srv" {
     ]) : "${item.zone_key}.${item.srv_key}" => item
   }
 
-  name = try(
-    each.value.srv.name, each.value.srv_key
-  )
-
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
+  name = coalesce(each.value.srv.name, each.value.srv_key)
 
   ttl = each.value.srv.ttl
 
-  zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
-  tags = coalesce(
-    try(
-      each.value.srv.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.srv.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.srv.records
@@ -622,7 +491,7 @@ resource "azurerm_private_dns_srv_record" "srv" {
   }
 }
 
-resource "azurerm_private_dns_txt_record" "txt" {
+resource "azurerm_private_dns_txt_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
@@ -636,28 +505,16 @@ resource "azurerm_private_dns_txt_record" "txt" {
     ]) : "${item.zone_key}.${item.txt_key}" => item
   }
 
-  name = try(
-    each.value.txt.name, each.value.txt_key
-  )
-
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
+  name = coalesce(each.value.txt.name, each.value.txt_key)
 
   ttl = each.value.txt.ttl
 
-  zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
-  tags = coalesce(
-    try(
-      each.value.txt.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.txt.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.txt.records
@@ -668,7 +525,7 @@ resource "azurerm_private_dns_txt_record" "txt" {
   }
 }
 
-resource "azurerm_private_dns_mx_record" "mx" {
+resource "azurerm_private_dns_mx_record" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
@@ -682,28 +539,16 @@ resource "azurerm_private_dns_mx_record" "mx" {
     ]) : "${item.zone_key}.${item.mx_key}" => item
   }
 
-  name = try(
-    each.value.mx.name, each.value.mx_key
-  )
-
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
+  name = coalesce(each.value.mx.name, each.value.mx_key)
 
   ttl = each.value.mx.ttl
 
-  zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
-  tags = coalesce(
-    try(
-      each.value.mx.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.mx.tags, var.tags)
 
   dynamic "record" {
     for_each = each.value.mx.records
@@ -716,12 +561,12 @@ resource "azurerm_private_dns_mx_record" "mx" {
 }
 
 # virtual network links
-resource "azurerm_private_dns_zone_virtual_network_link" "link" {
+resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   for_each = {
     for item in flatten([
       for zone_key, zone in var.zones.private : [
         for link_key, link in coalesce(
-          lookup(zone, "virtual_network_links", null),
+          zone.virtual_network_links,
           var.virtual_network_links
           ) : {
           zone_key = zone_key
@@ -735,26 +580,16 @@ resource "azurerm_private_dns_zone_virtual_network_link" "link" {
 
   name = coalesce(each.value.link.name, each.value.link_key)
 
-  resource_group_name = coalesce(
-    lookup(
-      each.value.zone, "resource_group_name", null
-    ), var.resource_group_name
-  )
-
-  private_dns_zone_name = (var.use_existing_private_dns_zone ||
+  private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].name : azurerm_private_dns_zone.zone[each.value.zone_key].name
+  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   virtual_network_id   = each.value.link.virtual_network_id
   registration_enabled = each.value.link.registration_enabled
   resolution_policy    = each.value.link.resolution_policy
 
-  tags = coalesce(
-    try(
-      each.value.link.tags, null
-    ), var.tags
-  )
+  tags = coalesce(each.value.link.tags, var.tags)
 
   lifecycle {
     create_before_destroy = true

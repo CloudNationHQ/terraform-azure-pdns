@@ -51,8 +51,8 @@ The following resources are used by this module:
 - [azurerm_private_dns_txt_record.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_txt_record) (resource)
 - [azurerm_private_dns_zone.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) (resource)
 - [azurerm_private_dns_zone_virtual_network_link.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) (resource)
-- [azurerm_dns_zone.existing_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/dns_zone) (data source)
-- [azurerm_private_dns_zone.existing_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) (data source)
+- [azurerm_dns_zone.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/dns_zone) (data source)
+- [azurerm_private_dns_zone.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) (data source)
 
 ## Required Inputs
 
@@ -307,7 +307,7 @@ Description: Contains all private DNS TXT records
 
 ### <a name="output_private_zones"></a> [private\_zones](#output\_private\_zones)
 
-Description: Contains all private DNS zones (new and existing)
+Description: Contains all private DNS zones, existing and new.
 
 ### <a name="output_public_a_records"></a> [public\_a\_records](#output\_public\_a\_records)
 
@@ -347,7 +347,7 @@ Description: Contains all public DNS TXT records
 
 ### <a name="output_public_zones"></a> [public\_zones](#output\_public\_zones)
 
-Description: Contains all public DNS zones (new and existing)
+Description: Contains all public DNS zones, existing and new.
 
 ### <a name="output_virtual_network_links"></a> [virtual\_network\_links](#output\_virtual\_network\_links)
 

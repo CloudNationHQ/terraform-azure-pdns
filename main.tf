@@ -12,10 +12,6 @@ data "azurerm_private_dns_zone" "this" {
   resource_group_name = coalesce(
     each.value.resource_group_name, var.resource_group_name
   )
-
-  tags = coalesce(
-    each.value.tags, var.tags
-  )
 }
 
 # existing public dns zones

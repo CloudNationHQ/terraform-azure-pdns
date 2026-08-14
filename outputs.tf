@@ -1,23 +1,11 @@
 output "private_zones" {
-  description = "Contains all private DNS zones (new and existing)"
-  value = {
-    for zone_key, zone in try(var.zones.private, {}) : zone_key => (
-      (var.use_existing_private_dns_zone || try(var.zones.use_existing_zone, false) || try(zone.use_existing_zone, false))
-      ? try(data.azurerm_private_dns_zone.this[zone_key], null)
-      : try(azurerm_private_dns_zone.this[zone_key], null)
-    )
-  }
+  description = "Contains all private DNS zones, existing and new."
+  value       = merge(azurerm_private_dns_zone.this, data.azurerm_private_dns_zone.this)
 }
 
 output "public_zones" {
-  description = "Contains all public DNS zones (new and existing)"
-  value = {
-    for zone_key, zone in try(var.zones.public, {}) : zone_key => (
-      (var.use_existing_public_dns_zone || try(var.zones.use_existing_zone, false) || try(zone.use_existing_zone, false))
-      ? try(data.azurerm_dns_zone.this[zone_key], null)
-      : try(azurerm_dns_zone.this[zone_key], null)
-    )
-  }
+  description = "Contains all public DNS zones, existing and new."
+  value       = merge(azurerm_dns_zone.this, data.azurerm_dns_zone.this)
 }
 
 output "public_a_records" {

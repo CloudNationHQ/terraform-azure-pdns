@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v4.3.0...v5.0.0) (2026-08-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* azurerm v5 upgrade and new module standards  ([#93](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/93))
+
+### Features
+
+* azurerm v5 upgrade and new module standards  ([#93](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/93)) ([e2d0e21](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/e2d0e213510effcea426d3900e1a4a376d0d69f4))
+* **deps:** bump golang.org/x/crypto ([#90](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/90)) ([cb9330d](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/cb9330d5106881a70d3df78038c08222c8483ce0))
+
 ## [4.3.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v4.2.0...v4.3.0) (2026-07-07)
 
 

@@ -166,6 +166,12 @@ variable "use_existing_private_dns_zone" {
   default     = false
 }
 
+variable "use_existing_public_dns_zone" {
+  description = "whether to use existing public dns zones"
+  type        = bool
+  default     = false
+}
+
 variable "virtual_network_links" {
   description = "Virtual network links to apply to all private DNS zones (fallback when zone-specific links are not defined)"
   type = map(object({

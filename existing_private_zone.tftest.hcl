@@ -57,24 +57,24 @@ run "existing_zone_via_global_flag" {
   }
 
   assert {
-    condition = length(data.azurerm_private_dns_zone.existing_zone) == 1 && length(azurerm_private_dns_zone.this) == 0
+    condition = length(data.azurerm_private_dns_zone.this) == 1 && length(azurerm_private_dns_zone.this) == 0
     error_message = format(
       "the global flag must select the data source, got %d data source instance(s) and %d managed zone(s)",
-      length(data.azurerm_private_dns_zone.existing_zone),
+      length(data.azurerm_private_dns_zone.this),
       length(azurerm_private_dns_zone.this),
     )
   }
 
   assert {
-    condition = data.azurerm_private_dns_zone.existing_zone["vault"].resource_group_name == "rg-zones"
+    condition = data.azurerm_private_dns_zone.this["vault"].resource_group_name == "rg-zones"
     error_message = format(
       "existing zone must be looked up in zones.private.vault.resource_group_name (\"rg-zones\"), got %q",
-      data.azurerm_private_dns_zone.existing_zone["vault"].resource_group_name,
+      data.azurerm_private_dns_zone.this["vault"].resource_group_name,
     )
   }
 
   assert {
-    condition = azurerm_private_dns_a_record.this["vault.key1"].private_dns_zone_id == data.azurerm_private_dns_zone.existing_zone["vault"].id
+    condition = azurerm_private_dns_a_record.this["vault.key1"].private_dns_zone_id == data.azurerm_private_dns_zone.this["vault"].id
     error_message = format(
       "a record must attach to the existing zone id, got %q",
       azurerm_private_dns_a_record.this["vault.key1"].private_dns_zone_id,
@@ -82,7 +82,7 @@ run "existing_zone_via_global_flag" {
   }
 
   assert {
-    condition = azurerm_private_dns_zone_virtual_network_link.this["vault-link1"].private_dns_zone_id == data.azurerm_private_dns_zone.existing_zone["vault"].id
+    condition = azurerm_private_dns_zone_virtual_network_link.this["vault-link1"].private_dns_zone_id == data.azurerm_private_dns_zone.this["vault"].id
     error_message = format(
       "virtual network link must attach to the existing zone id, got %q",
       azurerm_private_dns_zone_virtual_network_link.this["vault-link1"].private_dns_zone_id,
@@ -115,16 +115,16 @@ run "existing_zone_via_zones_flag" {
   }
 
   assert {
-    condition = length(data.azurerm_private_dns_zone.existing_zone) == 1 && length(azurerm_private_dns_zone.this) == 0
+    condition = length(data.azurerm_private_dns_zone.this) == 1 && length(azurerm_private_dns_zone.this) == 0
     error_message = format(
       "zones.use_existing_zone alone must select the data source, got %d data source instance(s) and %d managed zone(s)",
-      length(data.azurerm_private_dns_zone.existing_zone),
+      length(data.azurerm_private_dns_zone.this),
       length(azurerm_private_dns_zone.this),
     )
   }
 
   assert {
-    condition = azurerm_private_dns_a_record.this["vault.key1"].private_dns_zone_id == data.azurerm_private_dns_zone.existing_zone["vault"].id
+    condition = azurerm_private_dns_a_record.this["vault.key1"].private_dns_zone_id == data.azurerm_private_dns_zone.this["vault"].id
     error_message = format(
       "a record must attach to the existing zone id, got %q",
       azurerm_private_dns_a_record.this["vault.key1"].private_dns_zone_id,
@@ -156,10 +156,10 @@ run "existing_zone_via_zone_flag" {
   }
 
   assert {
-    condition = length(data.azurerm_private_dns_zone.existing_zone) == 1 && length(azurerm_private_dns_zone.this) == 0
+    condition = length(data.azurerm_private_dns_zone.this) == 1 && length(azurerm_private_dns_zone.this) == 0
     error_message = format(
       "zones.private.vault.use_existing_zone alone must select the data source, got %d data source instance(s) and %d managed zone(s)",
-      length(data.azurerm_private_dns_zone.existing_zone),
+      length(data.azurerm_private_dns_zone.this),
       length(azurerm_private_dns_zone.this),
     )
   }
@@ -201,10 +201,10 @@ run "managed_zone_when_no_flag_set" {
   }
 
   assert {
-    condition = length(data.azurerm_private_dns_zone.existing_zone) == 0 && length(azurerm_private_dns_zone.this) == 1
+    condition = length(data.azurerm_private_dns_zone.this) == 0 && length(azurerm_private_dns_zone.this) == 1
     error_message = format(
       "with no flag set the zone must be created and nothing looked up, got %d data source instance(s) and %d managed zone(s)",
-      length(data.azurerm_private_dns_zone.existing_zone),
+      length(data.azurerm_private_dns_zone.this),
       length(azurerm_private_dns_zone.this),
     )
   }

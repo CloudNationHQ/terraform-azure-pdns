@@ -1,5 +1,5 @@
 # existing private dns zones
-data "azurerm_private_dns_zone" "existing_zone" {
+data "azurerm_private_dns_zone" "this" {
   for_each = {
     for zone_key, zone in var.zones.private : zone_key => zone
     if var.use_existing_private_dns_zone ||
@@ -18,9 +18,31 @@ data "azurerm_private_dns_zone" "existing_zone" {
   )
 }
 
+# existing public dns zones
+data "azurerm_dns_zone" "this" {
+  for_each = {
+    for zone_key, zone in var.zones.public : zone_key => zone
+    if var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    zone.use_existing_zone
+  }
+
+  name = each.value.name
+
+  resource_group_name = coalesce(
+    each.value.resource_group_name, var.resource_group_name
+  )
+}
+
 # public dns zone
 resource "azurerm_dns_zone" "this" {
-  for_each = var.zones.public
+  for_each = {
+    for zone_key, zone in var.zones.public :
+    zone_key => zone
+    if !var.use_existing_public_dns_zone &&
+    !var.zones.use_existing_zone &&
+    !zone.use_existing_zone
+  }
 
   name = each.value.name
 
@@ -69,9 +91,12 @@ resource "azurerm_dns_a_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl                = each.value.a.ttl
-  records            = each.value.a.records
-  zone_name          = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl     = each.value.a.ttl
+  records = each.value.a.records
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
   target_resource_id = each.value.a.target_resource_id
 
   tags = coalesce(each.value.a.tags, var.tags)
@@ -98,9 +123,12 @@ resource "azurerm_dns_aaaa_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl                = each.value.aaaa.ttl
-  records            = each.value.aaaa.records
-  zone_name          = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl     = each.value.aaaa.ttl
+  records = each.value.aaaa.records
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
   target_resource_id = each.value.aaaa.target_resource_id
 
   tags = coalesce(each.value.aaaa.tags, var.tags)
@@ -127,8 +155,11 @@ resource "azurerm_dns_caa_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl       = each.value.caa.ttl
-  zone_name = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl = each.value.caa.ttl
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
 
   tags = coalesce(each.value.caa.tags, var.tags)
 
@@ -164,8 +195,11 @@ resource "azurerm_dns_mx_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl       = each.value.mx.ttl
-  zone_name = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl = each.value.mx.ttl
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
 
   tags = coalesce(each.value.mx.tags, var.tags)
 
@@ -200,9 +234,12 @@ resource "azurerm_dns_cname_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl                = each.value.cname.ttl
-  record             = each.value.cname.record
-  zone_name          = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl    = each.value.cname.ttl
+  record = each.value.cname.record
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
   target_resource_id = each.value.cname.target_resource_id
 
   tags = coalesce(each.value.cname.tags, var.tags)
@@ -229,9 +266,12 @@ resource "azurerm_dns_ns_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl       = each.value.ns.ttl
-  records   = each.value.ns.records
-  zone_name = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl     = each.value.ns.ttl
+  records = each.value.ns.records
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
 
   tags = coalesce(each.value.ns.tags, var.tags)
 }
@@ -257,9 +297,12 @@ resource "azurerm_dns_ptr_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl       = each.value.ptr.ttl
-  records   = each.value.ptr.records
-  zone_name = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl     = each.value.ptr.ttl
+  records = each.value.ptr.records
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
 
   tags = coalesce(each.value.ptr.tags, var.tags)
 }
@@ -285,8 +328,11 @@ resource "azurerm_dns_srv_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl       = each.value.srv.ttl
-  zone_name = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl = each.value.srv.ttl
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
 
   tags = coalesce(each.value.srv.tags, var.tags)
 
@@ -323,8 +369,11 @@ resource "azurerm_dns_txt_record" "this" {
     each.value.zone.resource_group_name, var.resource_group_name
   )
 
-  ttl       = each.value.txt.ttl
-  zone_name = azurerm_dns_zone.this[each.value.zone_key].name
+  ttl = each.value.txt.ttl
+  zone_name = (var.use_existing_public_dns_zone ||
+    var.zones.use_existing_zone ||
+    each.value.zone.use_existing_zone
+  ) ? data.azurerm_dns_zone.this[each.value.zone_key].name : azurerm_dns_zone.this[each.value.zone_key].name
 
   tags = coalesce(each.value.txt.tags, var.tags)
 
@@ -395,7 +444,7 @@ resource "azurerm_private_dns_a_record" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   tags = coalesce(each.value.a.tags, var.tags)
 }
@@ -422,7 +471,7 @@ resource "azurerm_private_dns_cname_record" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   tags = coalesce(each.value.cname.tags, var.tags)
 }
@@ -449,7 +498,7 @@ resource "azurerm_private_dns_ptr_record" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   tags = coalesce(each.value.ptr.tags, var.tags)
 }
@@ -475,7 +524,7 @@ resource "azurerm_private_dns_srv_record" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   tags = coalesce(each.value.srv.tags, var.tags)
 
@@ -512,7 +561,7 @@ resource "azurerm_private_dns_txt_record" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   tags = coalesce(each.value.txt.tags, var.tags)
 
@@ -546,7 +595,7 @@ resource "azurerm_private_dns_mx_record" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   tags = coalesce(each.value.mx.tags, var.tags)
 
@@ -583,7 +632,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   private_dns_zone_id = (var.use_existing_private_dns_zone ||
     var.zones.use_existing_zone ||
     each.value.zone.use_existing_zone
-  ) ? data.azurerm_private_dns_zone.existing_zone[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
+  ) ? data.azurerm_private_dns_zone.this[each.value.zone_key].id : azurerm_private_dns_zone.this[each.value.zone_key].id
 
   virtual_network_id   = each.value.link.virtual_network_id
   registration_enabled = each.value.link.registration_enabled

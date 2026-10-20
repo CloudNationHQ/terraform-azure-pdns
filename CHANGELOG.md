@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v5.0.0...v5.1.0) (2026-10-20)
+
+
+### Features
+
+* **deps:** bump github.com/klauspost/compress ([#95](https://github.com/CloudNationHQ/terraform-azure-pdns/issues/95)) ([c6e1cfb](https://github.com/CloudNationHQ/terraform-azure-pdns/commit/c6e1cfb38bb02c8db971ef9b30f617d3469a9ef7))
+
 ## [5.0.0](https://github.com/CloudNationHQ/terraform-azure-pdns/compare/v4.3.0...v5.0.0) (2026-08-14)
 
 
